@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome | Happy New Year</title>
+
+<!-- pastel fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#f7d3e8; --lav:#dcd7fc; --blue:#c4e2ff; --mint:#d6fff2;
+  --glass:rgba(255,255,255,.65); --text:#444;
+}
+
+/* base */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  height:100vh;overflow:hidden;
+  background:linear-gradient(135deg,var(--pink),var(--lav),var(--blue),var(--mint));
+  background-size:400% 400%;
+  animation:bg 15s ease infinite;
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+@keyframes bg{0%{background-position:0 50%;}50%{background-position:100% 50%;}100%{background-position:0 50%;}}
+
+a{text-decoration:none;}
+
+.particle{
+  position:absolute;border-radius:50%;background:#fff5;
+  animation:f 8s infinite linear;opacity:.6;
+}
+@keyframes f{
+  0%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-80px) scale(1.4);}
+  100%{transform:translateY(0) scale(1);}
+}
+
+/* welcome card */
+.card{
+  width:90%;max-width:550px;padding:3rem 2rem;
+  background:var(--glass);backdrop-filter:blur(12px);
+  border-radius:25px;border:2px solid rgba(255,255,255,.35);
+  display:flex;flex-direction:column;gap:1.3rem;
+  opacity:0;animation:fadeIn 1.8s ease forwards;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+h1{
+  text-align:center;font-size:2.8rem;font-family:'Kalam',cursive;
+  color:var(--text);
+}
+
+/* 🌸👇 new line — user name 👇🌸 */
+h1 + p{
+  text-align:center;
+  font-size:1.25rem;
+  font-weight:500;
+  color:#666;
+  margin-top:-10px;
+  font-family:'Kalam',cursive;
+}
+
+h2{
+  font-size:1.3rem;color:#555;text-align:center;font-weight:500;margin-top:-6px;
+}
+
+.line{
+  width:100px;height:3px;background:var(--lav);
+  margin:0 auto;border-radius:3px;
+  animation:glow 2s ease infinite;
+}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 8px var(--blue);}
+  50%{box-shadow:0 0 14px var(--pink);}
+}
+
+/* button group */
+.btns{
+  margin-top:1.6rem;display:flex;flex-direction:column;gap:1rem;
+}
+button{
+  padding:1rem;border:none;border-radius:14px;
+  background:var(--lav);font-size:1.05rem;color:#333;
+  font-weight:600;cursor:pointer;transition:.3s;
+}
+button:hover{
+  background:var(--pink);transform:translateY(-4px);
+}
+
+.footer{
+  text-align:center;color:#555;font-size:.8rem;margin-top:1.3rem;opacity:.7;
+}
+
+/* floating quotes aesthetic */
+.quoteBox{
+  position:absolute;left:50%;top:10%;
+  transform:translateX(-50%);
+  background:rgba(255,255,255,.45);
+  border-radius:18px;padding:.8rem 1.2rem;
+  font-family:'Kalam',cursive;font-size:1.1rem;
+  color:#333;backdrop-filter:blur(8px);
+  animation:qfloat 6s ease-in-out infinite;
+}
+@keyframes qfloat{
+  0%{transform:translate(-50%,0);}
+  50%{transform:translate(-50%,-18px);}
+  100%{transform:translate(-50%,0);}
+}
+
+/* responsive */
+@media(max-width:520px){
+  h1{font-size:2.2rem;}
+  .quoteBox{font-size:.95rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- particles holder -->
+<div id="particles"></div>
+
+<!-- floating quote -->
+<div class="quoteBox" id="quoteTxt">
+  starting fresh feels different when you finally believe in yourself 💗✨
+</div>
+
+<!-- welcome card -->
+<div class="card">
+  <h1>welcome 🌸</h1>
+
+  <!-- 🌸👇 your name 👇🌸 -->
+  <p>name ✨</p>
+
+  <div class="line"></div>
+  <h2>a new chapter starts here — ready?</h2>
+
+  <div class="btns">
+    <button onclick="goNext()">continue →</button>
+    <button onclick="backHome()">go back 🔙</button>
+  </div>
+
+  <div class="footer">
+    made with soft pastel energy ✦
+  </div>
+</div>
+
+<script>
+/* particle spawn */
+let box=document.getElementById("particles");
+for(let i=0;i<60;i++){
+  let p=document.createElement("div");p.classList.add("particle");
+  let s=Math.random()*7+4;
+  p.style.width=p.style.height=s+"px";
+  p.style.left=Math.random()*100+"vw";
+  p.style.top=Math.random()*100+"vh";
+  p.style.animationDuration=(Math.random()*5+6)+"s";
+  p.style.animationDelay=Math.random()*4+"s";
+  box.appendChild(p);
+}
+
+/* quotes rotate */
+let q=[
+  "your glow hits different when you choose peace 💗",
+  "2025 is about you, finally. 🌸",
+  "sometimes soft is powerful enough ✨",
+  "life gets aesthetic when your mind does 🌈"
+];
+let qi=0;
+setInterval(()=>{
+  qi=(qi+1)%q.length;
+  document.getElementById("quoteTxt").innerHTML=q[qi];
+},4000);
+
+/* nav */
+function goNext(){ window.location.href="index3.html"; }
+function backHome(){ window.location.href="index.html"; }
+</script>
+
+</body>
+</html>

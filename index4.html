@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wishes complete ✦</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#f7d3e8; --lav:#dcd7fc; --blue:#c4e2ff; --mint:#d6fff2;
+  --glass:rgba(255,255,255,.65); --text:#444;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  height:100vh;overflow:hidden;
+  background:linear-gradient(135deg,var(--pink),var(--lav),var(--blue),var(--mint));
+  background-size:400% 400%;
+  animation:bg 15s ease infinite;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;
+}
+@keyframes bg{0%{background-position:0 50%;}50%{background-position:100% 50%;}100%{background-position:0 50%;}}
+
+h1{
+  font-family:'Kalam',cursive;font-size:3rem;
+  text-align:center;color:#333;margin-bottom:.5rem;
+}
+p.subtitle{
+  text-align:center;font-size:1.15rem;color:#555;margin-bottom:2rem;
+}
+
+.card{
+  width:92%;max-width:560px;
+  background:var(--glass);backdrop-filter:blur(10px);
+  padding:2.5rem 2rem;border-radius:22px;
+  border:2px solid rgba(255,255,255,.4);
+  text-align:center;animation:fadeIn 1.3s ease forwards;
+  opacity:0;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* msg */
+.bigTxt{
+  font-family:'Kalam',cursive;font-size:1.6rem;line-height:2.2rem;
+  color:#333;margin-bottom:1.6rem;
+}
+
+/* buttons */
+.btns{
+  display:flex;flex-direction:column;gap:1rem;margin-top:1.6rem;
+}
+button{
+  padding:1rem 1.3rem;border:none;border-radius:16px;
+  background:var(--lav);font-size:1.05rem;font-weight:600;
+  cursor:pointer;color:#333;transition:.3s;
+}
+button:hover{background:var(--pink);transform:translateY(-4px);}
+
+.footer{
+  margin-top:2rem;font-size:.8rem;color:#555;text-align:center;
+}
+
+/* particles */
+.particle{
+  position:absolute;border-radius:50%;background:#fff5;
+  animation:bubble 7s infinite linear;z-index:-1;
+}
+@keyframes bubble{
+  0%{transform:translateY(0) scale(1);opacity:.7;}
+  50%{transform:translateY(-120px) scale(1.5);opacity:.3;}
+  100%{transform:translateY(0) scale(1);opacity:.7;}
+}
+
+@media(max-width:550px){
+  h1{font-size:2.4rem;}
+  .bigTxt{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- particles -->
+<div id="pHolder"></div>
+
+<h1>all done 🌸</h1>
+<p class="subtitle">last step before you dip</p>
+
+<div class="card">
+  <p class="bigTxt">
+    sometimes endings look soft,<br>
+    but they hit diff when heart feels light.<br><br>
+    happy new year 💗  
+    keep growing & staying real ✨
+  </p>
+
+  <div class="btns">
+    <button onclick="goBack()">⬅ back</button>
+    <button onclick="openInsta()">reply💌</button>
+  </div>
+
+  <div class="footer">made with calm hopes ✦</div>
+</div>
+
+<script>
+/* particles */
+let ph=document.getElementById("pHolder");
+for(let i=0;i<60;i++){
+  let p=document.createElement("div");p.classList.add("particle");
+  let s=Math.random()*7+4;
+  p.style.width=p.style.height=s+"px";
+  p.style.left=Math.random()*100+"vw";
+  p.style.top=Math.random()*100+"vh";
+  p.style.animationDuration=(Math.random()*5+6)+"s";
+  p.style.animationDelay=Math.random()*4+"s";
+  ph.appendChild(p);
+}
+
+/* button actions */
+function goBack(){ window.location.href="index3.html"; }
+function openInsta(){
+  window.open("https://www.instagram.com/lost_.in_.self","_blank");
+}
+</script>
+
+</body>
+</html>

